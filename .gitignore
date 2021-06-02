@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+
+.pio/build/nucleo_f303k8/.sconsign39.dblite
+.pio/build/nucleo_f303k8/firmware.bin
+.pio/build/nucleo_f303k8/firmware.elf
+.pio/build/project.checksum
+
+
