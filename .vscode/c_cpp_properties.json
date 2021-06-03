@@ -10,6 +10,7 @@
             "includePath": [
                 "F:/GoogleDrive/Programming/STM32 Projects/HAL_development_online_course/Inc",
                 "F:/GoogleDrive/Programming/STM32 Projects/HAL_development_online_course/Src",
+                "F:/GoogleDrive/Programming/STM32 Projects/HAL_development_online_course/lib/HD44780_LCD_Driver",
                 "C:/Users/Ben/.platformio/packages/framework-stm32cubef3/Drivers/CMSIS/DSP/Include",
                 "C:/Users/Ben/.platformio/packages/framework-stm32cubef3/Drivers/CMSIS/Include",
                 "C:/Users/Ben/.platformio/packages/framework-stm32cubef3/Drivers/CMSIS/Device/ST/STM32F3xx/Include",
@@ -55,6 +56,7 @@
                 "path": [
                     "F:/GoogleDrive/Programming/STM32 Projects/HAL_development_online_course/Inc",
                     "F:/GoogleDrive/Programming/STM32 Projects/HAL_development_online_course/Src",
+                    "F:/GoogleDrive/Programming/STM32 Projects/HAL_development_online_course/lib/HD44780_LCD_Driver",
                     "C:/Users/Ben/.platformio/packages/framework-stm32cubef3/Drivers/CMSIS/DSP/Include",
                     "C:/Users/Ben/.platformio/packages/framework-stm32cubef3/Drivers/CMSIS/Include",
                     "C:/Users/Ben/.platformio/packages/framework-stm32cubef3/Drivers/CMSIS/Device/ST/STM32F3xx/Include",
@@ -101,6 +103,7 @@
                 "STM32F303x8",
                 "USE_HAL_DRIVER",
                 "F_CPU=72000000L",
+                "__PLATFORMIO_BUILD_DEBUG__",
                 ""
             ],
             "compilerPath": "C:/Users/Ben/.platformio/packages/toolchain-gccarmnoneeabi@1.70201.0/bin/arm-none-eabi-gcc.exe",
