@@ -8,8 +8,8 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "F:/GoogleDrive/Programming/PlatformIoProjects/HAL_Dev_course_arduino/include",
-                "F:/GoogleDrive/Programming/PlatformIoProjects/HAL_Dev_course_arduino/src",
+                "F:/GoogleDrive/Programming/STM32 Projects/HAL_development_online_course/Lab 01 - Starting simple/include",
+                "F:/GoogleDrive/Programming/STM32 Projects/HAL_development_online_course/Lab 01 - Starting simple/src",
                 "C:/Users/Ben/.platformio/packages/framework-arduinoststm32/cores/arduino/avr",
                 "C:/Users/Ben/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32",
                 "C:/Users/Ben/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/LL",
@@ -47,8 +47,8 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "F:/GoogleDrive/Programming/PlatformIoProjects/HAL_Dev_course_arduino/include",
-                    "F:/GoogleDrive/Programming/PlatformIoProjects/HAL_Dev_course_arduino/src",
+                    "F:/GoogleDrive/Programming/STM32 Projects/HAL_development_online_course/Lab 01 - Starting simple/include",
+                    "F:/GoogleDrive/Programming/STM32 Projects/HAL_development_online_course/Lab 01 - Starting simple/src",
                     "C:/Users/Ben/.platformio/packages/framework-arduinoststm32/cores/arduino/avr",
                     "C:/Users/Ben/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32",
                     "C:/Users/Ben/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32/LL",
@@ -93,6 +93,7 @@
                 "ARDUINO_NUCLEO_F303K8",
                 "BOARD_NAME=\"NUCLEO_F303K8\"",
                 "HAL_UART_MODULE_ENABLED",
+                "__PLATFORMIO_BUILD_DEBUG__",
                 ""
             ],
             "cStandard": "c11",
