@@ -90,10 +90,13 @@ int main(void)
     MX_USART1_UART_Init();
     /* USER CODE BEGIN 2 */
 
-    
-
     HD44780_LCD_Parallel_STM32 my_lcd_display(GPIOB, GPIO_PIN_3, GPIOB, GPIO_PIN_4, GPIOB, GPIO_PIN_5, GPIOA);
     strcpy(my_lcd_display.screen_buffer, "Hello World!\r\n");   // if stm32 had a printf method, we could do this instead. 
+    
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_RESET);
+
+    my_lcd_display.send_cmd();
     my_lcd_display.display();   
 
     /* USER CODE END 2 */

@@ -1,10 +1,7 @@
 #ifndef HD44780_LCD_Parallel_STM32_h
 #define HD44780_LCD_Parallel_STM32_h
 
-// Note, these next includes must be changed over for whatever platform you are using, e.g STM32F411xx.h for the F411
-#include <stm32f303x8.h>        
-#include <stm32f3xx_hal_gpio.h>
-
+#include "main.h"
 #include "HD44780_LCD_Driver.h"
 
 /*

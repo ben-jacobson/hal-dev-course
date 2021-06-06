@@ -28,9 +28,7 @@ class HD44780_LCD_Driver {
         
     protected: // sort of like private, but accessible to child classes
         static constexpr uint8_t INSTRUCTION_REGISTER = 0;  // used for toggling the R/S pin on this device
-        static constexpr uint8_t DATA_REGISTER = 1;                  
-        static constexpr uint8_t LOW = 0;  // Arduino style low and high! :)
-        static constexpr uint8_t HIGH = 1;          
+        static constexpr uint8_t DATA_REGISTER = 1;                     
 
         static constexpr uint8_t CLEAR_DELAY_MS = 2; // clear display and return home instructions take 1.53ms to execute
         static constexpr uint8_t INSTRUCTION_DELAY_MS = 1; // most instructions take 45us to execute, we'll force the MCU to wait at least 1ms       
