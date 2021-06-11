@@ -1,10 +1,10 @@
 #include <mbed.h>
 #include "platform/Stream.h"
 
-constexpr uint8_t BUS_WIDTH = 8;
-
 class LCD_Display: public Stream {
     public:
+        static constexpr uint8_t _BUS_WIDTH = 8;
+
         LCD_Display(PinName register_sel_pin, PinName read_write_pin, PinName enable_pin, BusOut *ptr_to_data_bus);
 
     private: 
@@ -13,11 +13,7 @@ class LCD_Display: public Stream {
 		BusOut *_ptr_to_data_bus; // requires us to define our bus out in our main code, then point to it. 
 
         // Device data bus pins
-        static uint8_t _data_bus_pins[BUS_WIDTH];     // declared static because other devices can share the same data bus, no need to have separate data busses for multiple devices. 
-
-        // Device timings
-        constexpr static uint8_t _CLEAR_DELAY_MS = 2; // clear display and return home instructions take 1.53ms to execute
-        constexpr static uint8_t _INSTRUCTION_DELAY_MS = 1; // most instructions take 45us to execute, we'll force the MCU to wait
+        static uint8_t _data_bus_pins[_BUS_WIDTH];     // declared static because other devices can share the same data bus, no need to have separate data busses for multiple devices. 
 
         enum LCD_Instructions: uint8_t {
             instr_clear_disp                    = 0b00000001, // 0x01 clears the display entirely. 
@@ -29,19 +25,22 @@ class LCD_Display: public Stream {
 
         void pulse_enable(void);        
         void send_command(uint8_t command);		
-		inline int _putc(int value) { send_command((uint8_t)value); };
+
+        // Stream implementation - provides printf() interface to write to display
+        int _putc(int value);
+        int _getc() { return -1; };
 };
 
-uint8_t LCD_Display::_data_bus_pins[BUS_WIDTH] = {0, 0, 0, 0, 0, 0, 0, 0}; // we are forced to initialize this static array, but can change it at any time during run time. 
+uint8_t LCD_Display::_data_bus_pins[LCD_Display::_BUS_WIDTH] = {0, 0, 0, 0, 0, 0, 0, 0}; // we are forced to initialize this static array, but can change it at any time during run time. 
 
 LCD_Display::LCD_Display(PinName register_sel_pin, PinName read_write_pin, PinName enable_pin, BusOut *ptr_to_data_bus)
     :  _register_sel_pin(register_sel_pin), _read_write_pin(read_write_pin), _enable_pin(enable_pin), _ptr_to_data_bus(ptr_to_data_bus) 
 {        
     // Pin modes no longer need to be initialized as this is covered by the DigitalOut constructor, same for data bus
-
+    
     // Initialise the display
-    digitalWrite(_REGISTER_SELECT_PIN, LOW);         // Set RS to instruction register. LOW = Instruction register selected, HIGH = Data register selected
-    digitalWrite(_READ_WRITE_PIN, LOW);              // LOW = Write mode, HIGH = Read Mode
+    _register_sel_pin = 0;  // Set RS to instruction register. LOW = Instruction register selected, HIGH = Data register selected
+    _read_write_pin = 0;     // LOW = Write mode, HIGH = Read Mode       
     send_command(instr_fn_set);
     pulse_enable();
 
@@ -53,34 +52,35 @@ LCD_Display::LCD_Display(PinName register_sel_pin, PinName read_write_pin, PinNa
 
     // Clear the display (This also resets cursor position)
     send_command(instr_clear_disp);
-    pulse_enable();
-    delay(_CLEAR_DELAY_MS);                         // Sleep to allow the display to full initialize
+    pulse_enable();                     
+    ThisThread::sleep_for(2ms);             // Sleep to allow the display to full initialize
+
+    // now that device is set up, we can set our register select to data, just note that if you want to change config mid execution, you will have to pull it low again
+    _register_sel_pin = 1;            // 0 = Instruction register selected, 1 = Data register selected
 }
 
-
-
 void LCD_Display::pulse_enable(void) {
-    digitalWrite(_ENABLE_PIN, LOW);        
-    delay(_INSTRUCTION_DELAY_MS);
-    digitalWrite(_ENABLE_PIN, HIGH);
+    _enable_pin = 0;        
+    ThisThread::sleep_for(1ms);
+    _enable_pin = 1;
 }
 
 void LCD_Display::send_command(uint8_t command) {
-    _register_sel_pin = 1;            // 0 = Instruction register selected, 1 = Data register selected
-	&_ptr_to_data_bus.write(command);
+    _ptr_to_data_bus->write(command);
+}
+
+int LCD_Display::_putc(int value) {     
+    send_command(value); 
+    pulse_enable();
+    return 0;
 }
 
 int main() {
-    constexpr uint8_t REGISTER_SELECT_PIN = D12;
-    constexpr uint8_t READ_WRITE_PIN = D11;
-    constexpr uint8_t ENABLE_PIN = D10;
-    //constexpr uint8_t DATA_BUS[8] = {D9, D8, D7, D6, D5, D4, D3, D2};
 	BusOut DATA_BUS(D9, D8, D7, D6, D5, D4, D3, D2);
+    LCD_Display my_lcd_screen(D12, D11, D10, &DATA_BUS);
+    my_lcd_screen.printf("Hello World!!");
 
-    LCD_Display my_lcd_screen(REGISTER_SELECT_PIN, READ_WRITE_PIN, ENABLE_PIN, &DATA_BUS);
-    my_lcd_screen.prinft("Hello World!!");
-
-	while(1) {
+	while(true) {
 		// put your main code here, to run repeatedly:
 	}
 }
